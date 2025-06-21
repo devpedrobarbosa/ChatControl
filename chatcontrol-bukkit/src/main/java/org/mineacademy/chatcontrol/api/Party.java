@@ -36,10 +36,33 @@ public abstract class Party {
 		};
 	};
 
+	/**
+	 * This is a channel shown only to the players from allied factions as well as the same one.
+	 */
 	public static final Party FACTION_ALLY = new Party("factions-ally") {
 		@Override
 		public boolean isInParty(Player receiver, Player sender) {
-			return HookManager.getOnlineFactionPlayers(sender).contains(receiver) || HookManager.getAlliedFactionPlayers(sender).contains(receiver);
+			return HookManager.getOnlineFactionPlayers(sender).contains(receiver) || HookManager.getRelatedFactionPlayers(sender, "ally").contains(receiver);
+		}
+	};
+
+	/**
+	 * This is a channel shown only to the players from enemy factions as well as the same one.
+	 */
+	public static final Party FACTION_ENEMY = new Party("factions-enemy") {
+		@Override
+		public boolean isInParty(Player receiver, Player sender) {
+			return HookManager.getOnlineFactionPlayers(sender).contains(receiver) || HookManager.getRelatedFactionPlayers(sender, "enemy").contains(receiver);
+		}
+	};
+
+	/**
+	 * This is a channel shown only to the players from factions in truce as well as the same one.
+	 */
+	public static final Party FACTION_TRUCE = new Party("factions-truce") {
+		@Override
+		public boolean isInParty(Player receiver, Player sender) {
+			return HookManager.getOnlineFactionPlayers(sender).contains(receiver) || HookManager.getRelatedFactionPlayers(sender, "truce").contains(receiver);
 		}
 	};
 
